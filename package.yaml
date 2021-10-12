@@ -21,12 +21,17 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- scotty >= 0.12
+- blaze-html >= 0.9
+- containers
+- text
+- http-types
 
 library:
   source-dirs: src
 
 executables:
-  warp-blog-exe:
+  shortener:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
