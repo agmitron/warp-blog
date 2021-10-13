@@ -21,12 +21,17 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- warp
+- wai
+- blaze-builder
+- http-types
+- utf8-string
 
 library:
   source-dirs: src
 
 executables:
-  warp-blog-exe:
+  warp-blog:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
