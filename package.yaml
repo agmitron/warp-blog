@@ -26,6 +26,7 @@ dependencies:
 - blaze-builder
 - http-types
 - utf8-string
+- postgresql-simple
 
 library:
   source-dirs: src

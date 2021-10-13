@@ -34,6 +34,7 @@ library
       base >=4.7 && <5
     , blaze-builder
     , http-types
+    , postgresql-simple
     , utf8-string
     , wai
     , warp
@@ -50,6 +51,7 @@ executable warp-blog
       base >=4.7 && <5
     , blaze-builder
     , http-types
+    , postgresql-simple
     , utf8-string
     , wai
     , warp
@@ -68,6 +70,7 @@ test-suite warp-blog-test
       base >=4.7 && <5
     , blaze-builder
     , http-types
+    , postgresql-simple
     , utf8-string
     , wai
     , warp
