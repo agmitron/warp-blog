@@ -27,6 +27,8 @@ dependencies:
 - http-types
 - utf8-string
 - postgresql-simple
+- cryptonite
+- bytestring
 
 library:
   source-dirs: src
