@@ -29,6 +29,7 @@ dependencies:
 - postgresql-simple
 - cryptonite
 - bytestring
+- directory
 
 library:
   source-dirs: src

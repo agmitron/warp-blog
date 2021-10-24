@@ -14,21 +14,23 @@ import Database.PostgreSQL.Simple
 main :: IO ()
 main = do
   conn <- U.createConnection
-  -- M.runMigrations conn
-  (Models.User.create conn Models.User.UserModel {
-    Models.User.name = "Ivan"
-    , Models.User.surname = "Ivanov"
-    , Models.User.avatar_uri = "Url"
-    , Models.User.login = "login"
-    , Models.User.password = "password"
-    , Models.User.is_admin = False
-  })
-  return ()
+  M.runMigrations conn
+  -- (Models.User.create conn Models.User.UserModel {
+  --   Models.User.name = "Ivan"
+  --   , Models.User.surname = "Ivanov"
+  --   , Models.User.avatar_uri = "Url"
+  --   , Models.User.login = "login"
+  --   , Models.User.password = "password"
+  --   , Models.User.is_admin = False
+  -- })
+  -- return ()
 
   -- let port = 3000
   -- putStrLn $ "Listening on port " ++ show port
   -- run port app
   -- return ()
+
+
 
 app :: Request -> (Response -> t) -> t
 app req respond = respond $

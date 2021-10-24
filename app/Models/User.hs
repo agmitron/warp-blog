@@ -30,10 +30,10 @@ create :: Connection -> UserModel -> IO (Either CryptoError [Only Int])
 create conn model = do
   salt <- getRandomBytes 16 :: IO B.ByteString
   let pwd = BC.pack $ password model
-      out = (hash defaultOptions pwd salt 256)
+      out = hash defaultOptions pwd salt 256
   case out of
     CryptoPassed hashedPassword -> do
-      let hashedPasswordStr = BC.unpack $ hashedPassword
+      let hashedPasswordStr = BC.unpack hashedPassword
       res <-
         query
           conn
