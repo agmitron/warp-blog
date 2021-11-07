@@ -6,7 +6,6 @@ import qualified Data.ByteString.UTF8 as BU
 import Data.Monoid
 import Database.PostgreSQL.Simple
 import qualified Migrations as M
-import qualified Models.User
 import Network.HTTP.Types (status200, status404)
 import Network.HTTP.Types.Method
 import Network.Wai

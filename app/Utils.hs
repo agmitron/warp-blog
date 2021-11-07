@@ -1,12 +1,11 @@
 module Utils
   (
     createConnection,
+    safeHead
   )
 where
 
 import Database.PostgreSQL.Simple (ConnectInfo (connectDatabase, connectHost, connectPassword, connectPort, connectUser, ConnectInfo), connect, Connection)
-
-
 
 createConnection :: IO Connection
 createConnection = connect $ ConnectInfo {
@@ -16,3 +15,7 @@ createConnection = connect $ ConnectInfo {
     , connectPassword = ""
     , connectDatabase = "warp-blog"
   }
+
+safeHead :: [a] -> Maybe a
+safeHead [] = Nothing
+safeHead (x:_) = Just x

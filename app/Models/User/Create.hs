@@ -17,14 +17,11 @@ module Models.User.Create
 )
 where
 
-import Crypto.Error
 import Crypto.Hash
-import Crypto.Random (getRandomBytes)
 import qualified Data.ByteString.UTF8 as B8
 import Data.Int
 import Database.PostgreSQL.Simple
 import Database.PostgreSQL.Simple.SqlQQ
-import qualified Utils as U
 import GHC.Generics
 import qualified Utils as U
 

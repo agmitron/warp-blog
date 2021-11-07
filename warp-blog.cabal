@@ -41,6 +41,7 @@ library
     , http-types
     , postgresql-simple
     , postgresql-simple-migration ==0.1.15.0
+    , random
     , utf8-string
     , wai
     , wai-extra
@@ -53,9 +54,9 @@ executable warp-blog
       Controllers.Controllers
       Controllers.User
       Migrations
-      Models.User
       Models.User.Create
       Models.User.Find
+      Models.User.Update
       Utils
       Paths_warp_blog
   hs-source-dirs:
@@ -72,6 +73,7 @@ executable warp-blog
     , http-types
     , postgresql-simple
     , postgresql-simple-migration ==0.1.15.0
+    , random
     , utf8-string
     , wai
     , wai-extra
@@ -98,6 +100,7 @@ test-suite warp-blog-test
     , http-types
     , postgresql-simple
     , postgresql-simple-migration ==0.1.15.0
+    , random
     , utf8-string
     , wai
     , wai-extra
