@@ -9,7 +9,9 @@ import Prelude hiding (catch)
 import Control.Exception
 import Database.PostgreSQL.Simple
 import Database.PostgreSQL.Simple.SqlQQ
+import Database.PostgreSQL.Simple.Migration hiding (runMigrations)
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.UTF8 as B8
 import Data.Int (Int64)
 import qualified Data.List as L
 import Data.Function
@@ -17,6 +19,9 @@ import Control.Monad
 import System.Directory (listDirectory, getCurrentDirectory)
 import System.IO
 import Data.String (fromString)
+import qualified Utils as U
+import System.Exit
+import Data.FileEmbed
 
 migrationsDir = "data/migrations/"
 
@@ -25,15 +30,33 @@ errorHandler fileName err = do
   print (fileName ++ ": " ++ show err)
   return 0
 
-runMigrations :: Connection -> IO ()
-runMigrations conn = do
-  currentDir <- getCurrentDirectory
-  print currentDir
-  unsorted <- listDirectory migrationsDir
-  let sorted = L.sort unsorted
-  print sorted
-  forM_ sorted (\f -> do
-    let fileName = migrationsDir ++ f
-    withFile fileName ReadMode (\handle -> do
-      contents <- hGetContents handle
-      (execute_ conn $ fromString contents) `catch` errorHandler fileName))
+sortedMigrations :: [(FilePath, BS.ByteString)]
+sortedMigrations =
+  let unsorted = $(embedDir "data/migrations/")
+  in L.sortBy (compare `on` fst) unsorted
+
+runMigrations :: IO ()
+runMigrations = do
+  conn <- U.createConnection
+  let defaultContext =
+          MigrationContext
+          { migrationContextCommand = MigrationInitialization
+          , migrationContextVerbose = False
+          , migrationContextConnection = conn
+          }
+      migrations = ("(init)", defaultContext) :
+                     [
+                        (k, defaultContext
+                            { migrationContextCommand =
+                                MigrationScript k v
+                            })
+                        | (k, v) <- sortedMigrations
+                     ]
+  forM_ migrations $ \(migrDescr, migr) -> do
+    BS.putStrLn $ "Running migration: " <> B8.fromString migrDescr
+    res <- runMigration migr
+    case res of
+      MigrationSuccess -> return ()
+      MigrationError reason -> do
+        BS.putStrLn $ "Migration failed: " <> B8.fromString reason
+        exitFailure

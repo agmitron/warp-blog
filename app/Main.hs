@@ -1,59 +1,46 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import Blaze.ByteString.Builder (copyByteString)
+import qualified Controllers.User
 import qualified Data.ByteString.UTF8 as BU
 import Data.Monoid
-import Network.HTTP.Types (status200)
+import Database.PostgreSQL.Simple
+import qualified Migrations as M
+import qualified Models.User
+import Network.HTTP.Types (status200, status404)
+import Network.HTTP.Types.Method
 import Network.Wai
 import Network.Wai.Handler.Warp
-import qualified Models.User
-import qualified Migrations as M
+import System.Environment
 import qualified Utils as U
-import Database.PostgreSQL.Simple
+
 
 main :: IO ()
 main = do
-  conn <- U.createConnection
-  M.runMigrations conn
-  -- (Models.User.create conn Models.User.UserModel {
-  --   Models.User.name = "Ivan"
-  --   , Models.User.surname = "Ivanov"
-  --   , Models.User.avatar_uri = "Url"
-  --   , Models.User.login = "login"
-  --   , Models.User.password = "password"
-  --   , Models.User.is_admin = False
-  -- })
-  -- return ()
+  args <- getArgs
+  case args of
+    ["migration"] -> M.runMigrations
+    _ -> do
+      let port = 3000
+      putStrLn $ "Listening on port " ++ show port
+      run port app
+      return ()
 
-  -- let port = 3000
-  -- putStrLn $ "Listening on port " ++ show port
-  -- run port app
-  -- return ()
+app :: Request -> (Response -> IO ResponseReceived) -> IO ResponseReceived
+app req respond = case pathInfo req of
+  ["auth", "register"] -> case requestMethod req of
+    "POST" -> Controllers.User.register req respond
+    _ -> notFound respond
+  ["auth", "login"] -> case requestMethod req of
+    "POST" -> Controllers.User.login req respond
+    _ -> notFound respond
+  x -> notFound respond
 
 
-
-app :: Request -> (Response -> t) -> t
-app req respond = respond $
-  case pathInfo req of
-    ["yay"] -> yay
-    x -> index x
-
-yay :: Response
-yay =
-  responseBuilder status200 [("Content-Type", "text/plain")] $
-    mconcat $
-      map
-        copyByteString
-        ["yay"]
-
-index :: Show a => a -> Response
-index x =
-  responseBuilder status200 [("Content-Type", "text/html")] $
-    mconcat $
-      map
-        copyByteString
-        [ "<p>Hello from ",
-          BU.fromString $ show x,
-          "!</p>",
-          "<p><a href='/yay'>yay</a></p>\n"
-        ]
+notFound :: (Response -> IO ResponseReceived) -> IO ResponseReceived
+notFound respond = do
+  respond $
+    responseLBS
+      status404
+      [("Content-Type", "text/plain")]
+      "Not found"

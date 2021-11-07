@@ -12,7 +12,7 @@
 # resolver: nightly-2015-09-21
 # resolver: ghc-7.10.2
 #
-resolver: lts-18.6
+resolver: lts-18.15
 # The location of a snapshot can be provided as a file or url. Stack assumes
 # a snapshot provided as a file might change, whereas a url resource does not.
 #
@@ -41,7 +41,8 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-# extra-deps: []
+extra-deps:
+ - postgresql-simple-migration-0.1.15.0@sha256:123d8f62b0e300aede37e2d6dacc81b9468cb68dc5c3f52fe807085992280aa8,3969
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

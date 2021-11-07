@@ -30,6 +30,10 @@ dependencies:
 - cryptonite
 - bytestring
 - directory
+- wai-extra
+- containers
+- postgresql-simple-migration == 0.1.15.0
+- file-embed
 
 library:
   source-dirs: src
