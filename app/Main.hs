@@ -2,6 +2,7 @@
 
 import Blaze.ByteString.Builder (copyByteString)
 import qualified Controllers.User
+import qualified Controllers.Category
 import qualified Data.ByteString.UTF8 as BU
 import Data.Monoid
 import Database.PostgreSQL.Simple
@@ -32,6 +33,9 @@ app req respond = case pathInfo req of
     _ -> notFound respond
   ["auth", "login"] -> case requestMethod req of
     "POST" -> Controllers.User.login req respond
+    _ -> notFound respond
+  ["categories"] -> case requestMethod req of
+    "GET" -> Controllers.Category.all req respond
     _ -> notFound respond
   x -> notFound respond
 

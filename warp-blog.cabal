@@ -51,9 +51,12 @@ library
 executable warp-blog
   main-is: Main.hs
   other-modules:
+      Controllers.Category
       Controllers.Controllers
       Controllers.User
       Migrations
+      Models.Category.All
+      Models.Category.Common
       Models.User.Create
       Models.User.Find
       Models.User.Update
