@@ -9,10 +9,11 @@ import qualified Data.ByteString.UTF8 as B8
 import GHC.Generics
 import Database.PostgreSQL.Simple
 import Prelude hiding (id)
+import qualified Data.Text as T
 
 data Category = Category {
   id :: Integer,
   parent_id :: Maybe Integer,
-  name :: B8.ByteString
+  name :: T.Text
 } deriving (Generic, Show, FromRow)
 

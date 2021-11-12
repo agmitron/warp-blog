@@ -35,6 +35,8 @@ dependencies:
 - postgresql-simple-migration == 0.1.15.0
 - file-embed
 - random
+- aeson
+- text
 
 library:
   source-dirs: src

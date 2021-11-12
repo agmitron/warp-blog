@@ -16,6 +16,8 @@ import GHC.Generics
 import qualified Models.Category.Common as CC
 import Prelude hiding (id)
 import Data.Maybe
+import Data.Aeson (ToJSON)
+import qualified Data.Text as T
 
 getAll :: IO [CC.Category]
 getAll = do
@@ -28,17 +30,9 @@ getAll = do
 data CategoryTree = CategoryTree {
   id :: Integer,
   parent_id :: Maybe Integer,
-  name :: B8.ByteString,
+  name :: T.Text,
   children :: [CategoryTree]
-} deriving (Show)
-
-sortedCatsExample :: [CC.Category]
-sortedCatsExample = [CC.Category {CC.id = 1, CC.parent_id = Nothing, CC.name = "news"},
-  CC.Category {CC.id = 2, CC.parent_id = Just 1, CC.name = "news_about_memes"},
-  CC.Category {CC.id = 5, CC.parent_id = Just 1, CC.name = "news_about_covid19"},
-  CC.Category {CC.id = 3, CC.parent_id = Just 2, CC.name = "memes_about_coding"},
-  CC.Category {CC.id = 4, CC.parent_id = Just 2, CC.name = "memes_about_cats"},
-  CC.Category {CC.id = 6, CC.parent_id = Just 5, CC.name = "covid19_death_count"}]
+} deriving (Generic, Show, ToJSON)
 
 
 createCategoryTree :: [CC.Category]-> [CategoryTree]

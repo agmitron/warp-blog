@@ -8,6 +8,7 @@ import Network.Wai.Handler.Warp
 import Network.Wai
 import Models.Category.Common (Category(Category))
 import Data.List (sortBy)
+import Data.Aeson
 
 all :: Controller
 all req respond = do
@@ -17,8 +18,8 @@ all req respond = do
   print categoryTree
   respond $ responseLBS
     status200
-    [("Content-Type", "text/plain")]
-    "OK"
+    [("Content-Type", "application/json")]
+    (encode categoryTree)
 
 sortCategoriesByParentId :: [Category] -> [Category]
 sortCategoriesByParentId cats = sortBy compareParentIds cats

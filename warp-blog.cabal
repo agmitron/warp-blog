@@ -31,7 +31,8 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blaze-builder
     , bytestring
     , containers
@@ -42,6 +43,7 @@ library
     , postgresql-simple
     , postgresql-simple-migration ==0.1.15.0
     , random
+    , text
     , utf8-string
     , wai
     , wai-extra
@@ -66,7 +68,8 @@ executable warp-blog
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blaze-builder
     , bytestring
     , containers
@@ -77,6 +80,7 @@ executable warp-blog
     , postgresql-simple
     , postgresql-simple-migration ==0.1.15.0
     , random
+    , text
     , utf8-string
     , wai
     , wai-extra
@@ -93,7 +97,8 @@ test-suite warp-blog-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blaze-builder
     , bytestring
     , containers
@@ -104,6 +109,7 @@ test-suite warp-blog-test
     , postgresql-simple
     , postgresql-simple-migration ==0.1.15.0
     , random
+    , text
     , utf8-string
     , wai
     , wai-extra
